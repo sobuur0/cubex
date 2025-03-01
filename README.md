@@ -13,6 +13,8 @@ A Flutter application that displays a list of African countries along with detai
 - Offline support with Hive caching
 - Clean architecture with BLoC state management
 - Beautiful custom theme with Africa-inspired colors
+- Hero animations for smooth transitions between screens
+- Google Maps integration for viewing countries and capitals
 
 ## Getting Started
 

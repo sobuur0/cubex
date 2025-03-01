@@ -1,3 +1,4 @@
+import 'package:cubex/core/services/url_launcher_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -228,34 +229,81 @@ class _CountryDetailsPageState extends State<CountryDetailsPage> {
             ],
           ),
           const SizedBox(height: 16),
-          if (country.maps.containsKey('googleMaps')) ...[
+          if (country.maps.containsKey('googleMaps') ||
+              country.capitals.isNotEmpty) ...[
             Card(
               margin: EdgeInsets.zero,
-              child: ListTile(
-                title: Text(
-                  'View on Google Maps',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                leading: Icon(
-                  Icons.map_outlined,
-                  color: theme.colorScheme.primary,
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content:
-                          Text('Opening Google Maps link for ${country.name}'),
+              child: Column(
+                children: [
+                  if (country.maps.containsKey('googleMaps'))
+                    ListTile(
+                      title: Text(
+                        'View on Google Maps',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      leading: Icon(
+                        Icons.map_outlined,
+                        color: theme.colorScheme.primary,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: theme.colorScheme.primary,
+                      ),
+                      onTap: () async {
+                        final mapsUrl = country.maps['googleMaps'] as String;
+                        try {
+                          await UrlLauncherService.openWebPage(mapsUrl);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Could not open maps for ${country.name}'),
+                              backgroundColor: theme.colorScheme.error,
+                            ),
+                          );
+                        }
+                      },
                     ),
-                  );
-                },
+                  if (country.capitals.isNotEmpty)
+                    ListTile(
+                      title: Text(
+                        'View Capital on Google Maps',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      leading: Icon(
+                        Icons.location_city,
+                        color: theme.colorScheme.primary,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: theme.colorScheme.primary,
+                      ),
+                      onTap: () async {
+                        try {
+                          await UrlLauncherService.openGoogleMaps(
+                              country.capitals.first);
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Could not open maps for ${country.capitals.first}'),
+                                backgroundColor: theme.colorScheme.error,
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                ],
               ),
             ),
             const SizedBox(height: 24),
