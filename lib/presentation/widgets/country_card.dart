@@ -26,32 +26,35 @@ class CountryCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: SizedBox(
-                  width: 80,
-                  height: 60,
-                  child: CachedNetworkImage(
-                    imageUrl: country.flagUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: theme.colorScheme.surface,
-                      child: Center(
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: theme.colorScheme.primary,
+              Hero(
+                tag: 'country_flag_${country.name}',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    width: 80,
+                    height: 60,
+                    child: CachedNetworkImage(
+                      imageUrl: country.flagUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        color: theme.colorScheme.surface,
+                        child: Center(
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: theme.colorScheme.primary,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: theme.colorScheme.errorContainer,
-                      child: Icon(
-                        Icons.error_outline,
-                        color: theme.colorScheme.error,
+                      errorWidget: (context, url, error) => Container(
+                        color: theme.colorScheme.errorContainer,
+                        child: Icon(
+                          Icons.error_outline,
+                          color: theme.colorScheme.error,
+                        ),
                       ),
                     ),
                   ),

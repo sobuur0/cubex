@@ -94,28 +94,31 @@ class _CountryDetailsPageState extends State<CountryDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: country.flagUrl,
-                width: double.infinity,
-                height: 200,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: theme.colorScheme.surface,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: theme.colorScheme.errorContainer,
+            child: Hero(
+              tag: 'country_flag_${country.name}',
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: CachedNetworkImage(
+                  imageUrl: country.flagUrl,
                   width: double.infinity,
                   height: 200,
-                  child: Center(
-                    child: Icon(
-                      Icons.broken_image,
-                      color: theme.colorScheme.error,
-                      size: 48,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: theme.colorScheme.surface,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: theme.colorScheme.errorContainer,
+                    width: double.infinity,
+                    height: 200,
+                    child: Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: theme.colorScheme.error,
+                        size: 48,
+                      ),
                     ),
                   ),
                 ),
