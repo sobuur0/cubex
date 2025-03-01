@@ -2,7 +2,6 @@ import 'package:cubex/core/theme/color_schemes.dart';
 import 'package:cubex/core/theme/text_themes.dart';
 import 'package:flutter/material.dart';
 
-/// App theming class that provides light and dark themes
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
